@@ -1,0 +1,19 @@
+name: validate
+permissions:
+  contents: read
+on: [push, pull_request]
+jobs:
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check frontmatter
+        run: |
+          set -e
+          for f in skills/*/SKILL.md; do
+            d=$(basename $(dirname "$f"))
+            head -1 "$f" | grep -q '^---$' || { echo "$f: missing frontmatter"; exit 1; }
+            grep -q "^name: $d$" "$f" || { echo "$f: name must be $d"; exit 1; }
+            grep -q '^description: ' "$f" || { echo "$f: missing description"; exit 1; }
+          done
+          echo "ok: $(ls -d skills/*/ | wc -l) skills"

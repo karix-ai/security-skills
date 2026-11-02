@@ -1,0 +1,4 @@
+- [ ] `npx skills add . --list` shows every skill
+- [ ] Every new command was run and works
+- [ ] Any new number has a source in `data/security-stats.md`
+- [ ] Defensive only
